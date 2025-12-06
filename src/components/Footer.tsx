@@ -33,7 +33,15 @@ const Footer: React.FC = () => {
         <div>
           <h2 className="text-yellow-400 font-extrabold mb-4">Resources</h2>
           <ul className="space-y-1 text-sm text-gray-300">
-            <li><Link to="/blog">Blog</Link></li>
+            <li>
+  <a 
+    href="https://www.abilitydigitalz.com.ng/" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    Blog
+  </a>
+</li>
             <li><Link to="/reviews">Customer Reviews</Link></li>
           </ul>
           
@@ -48,7 +56,7 @@ const Footer: React.FC = () => {
             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400">
               <FaInstagram size={18} />
             </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400">
+            <a href="https://www.linkedin.com/in/olumuyiwa-ogunyankin-2208b6201/" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400">
               <FaLinkedinIn size={18} />
             </a>
           </div>
