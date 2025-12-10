@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import profile from '../assets/profile.jpg';
 import { jsPDF } from 'jspdf';
@@ -12,7 +12,16 @@ const SKILLS = [
 ];
 
 const Resume: React.FC = () => {
-  const resumeRef = useRef<HTMLDivElement>(null);
+  const PAGE_BREAK_THRESHOLD_HIGH = 250;
+  const PAGE_BREAK_THRESHOLD_LOW = 230;
+
+  const checkPageBreak = (doc: jsPDF, yPos: number, threshold: number): number => {
+    if (yPos > threshold) {
+      doc.addPage();
+      return 20;
+    }
+    return yPos;
+  };
 
   const handleDownloadPDF = () => {
     const doc = new jsPDF({
@@ -130,10 +139,7 @@ const Resume: React.FC = () => {
     yPos += 5;
 
     // Check if we need a new page
-    if (yPos > 250) {
-      doc.addPage();
-      yPos = 20;
-    }
+    yPos = checkPageBreak(doc, yPos, PAGE_BREAK_THRESHOLD_HIGH);
 
     // Job 3
     doc.setFontSize(11);
@@ -188,10 +194,7 @@ const Resume: React.FC = () => {
     yPos += 5;
 
     // Check if we need a new page
-    if (yPos > 230) {
-      doc.addPage();
-      yPos = 20;
-    }
+    yPos = checkPageBreak(doc, yPos, PAGE_BREAK_THRESHOLD_LOW);
 
     // Job 5
     doc.setFontSize(11);
@@ -222,10 +225,7 @@ const Resume: React.FC = () => {
     yPos += sectionSpacing;
 
     // Check if we need a new page
-    if (yPos > 230) {
-      doc.addPage();
-      yPos = 20;
-    }
+    yPos = checkPageBreak(doc, yPos, PAGE_BREAK_THRESHOLD_LOW);
 
     // Education Section
     doc.setFontSize(14);
@@ -278,10 +278,7 @@ const Resume: React.FC = () => {
     yPos += sectionSpacing;
 
     // Check if we need a new page
-    if (yPos > 230) {
-      doc.addPage();
-      yPos = 20;
-    }
+    yPos = checkPageBreak(doc, yPos, PAGE_BREAK_THRESHOLD_LOW);
 
     // Language Skills Section
     doc.setFontSize(14);
@@ -313,7 +310,6 @@ const Resume: React.FC = () => {
 return (
     <div className="min-h-screen bg-gradient-to-br from-[#1f2235] via-[#252841] to-[#1f2235] text-white px-4 py-16 md:px-8">
       <motion.div 
-        ref={resumeRef}
         className="max-w-7xl mx-auto bg-gradient-to-br from-gray-800 via-gray-900 to-gray-800 rounded-3xl shadow-2xl grid grid-cols-1 md:grid-cols-3 overflow-hidden border border-gray-700"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
