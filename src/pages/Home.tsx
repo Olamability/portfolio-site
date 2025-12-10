@@ -58,6 +58,7 @@ const Home = () => {
         >
           <Typed
             strings={[
+              "Teacher",
               "UI/UX Designer",
               "Frontend Developer",
               "Mobile App Developer",
@@ -77,7 +78,7 @@ const Home = () => {
           transition={{ delay: 0.5 }}
         >
           <p>
-            I am a <span className="text-yellow-400 font-medium">UI/UX Designer, Frontend Developer, and Mobile App Developer</span> who specializes in creating <span className="text-yellow-400 font-medium">intuitive digital experiences</span> that combine beautiful design with powerful functionality.
+            I am a <span className="text-yellow-400 font-medium">Teacher, UI/UX Designer, Frontend Developer, and Mobile App Developer</span> who specializes in creating <span className="text-yellow-400 font-medium">intuitive digital experiences</span> that combine beautiful design with powerful functionality.
           </p>
           <p>
             My expertise includes <span className="font-bold">UI/UX design (Figma, Adobe XD), frontend development (React, TypeScript, Tailwind CSS), and mobile app development (React Native, Flutter, FlutterFlow)</span> — enabling me to design and build complete digital solutions from concept to deployment.
