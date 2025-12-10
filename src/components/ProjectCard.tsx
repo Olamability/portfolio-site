@@ -17,6 +17,7 @@ import CaptureImg from "../assets/Capture.jpg";
 import Dipodemy1Img from "../assets/Dipodemy1.jpg";
 import Dipodemy2Img from "../assets/Dipodemy2.jpg";
 import Dipodemy3Img from "../assets/Dipodemy3.jpg";
+import Vision from "../assets/Vision.png";
 
 interface Project {
   id: number;
@@ -25,13 +26,23 @@ interface Project {
   tools: string;
   description: string;
   link: string;
-  type: "live" | "github" | "case-study";
+  type: "live" | "github" | "case-study" |"Demo";
   images: string[];
 }
 
 const allProjects: Project[] = [
   {
     id: 1,
+    title: "VisionFinance Website",
+    category: "Frontend Development",
+    tools: "React, TypeScript, Tailwind CSS",
+    description: "Modern Personal Finance Dashboard (React/Vue). Interactive dashboard that visually summarizes income, expenses, and savings goals.",
+    link: "https://vision-finance.vercel.app/",
+    type: "Demo",
+    images: [Vision],
+  },
+  {
+    id: 2,
     title: "AbilityDigitalz News Platform",
     category: "Web Development",
     tools: "WordPress, SEO, Performance Optimization",
@@ -41,17 +52,17 @@ const allProjects: Project[] = [
     images: [abilitydigitalzImg],
   },
   {
-    id: 2,
+    id: 3,
     title: "Personal Portfolio Website",
     category: "Frontend Development",
     tools: "React, TypeScript, Tailwind CSS, Framer Motion",
     description: "A modern, responsive portfolio built with React and TypeScript featuring smooth animations, dark mode support, and optimized performance. Showcases my work with an emphasis on clean UI/UX design.",
-    link: "https://abilitydigitalz.com.ng/portfolio",
+    link: "https://devability.vercel.app/",
     type: "live",
     images: [AbImg, AbiImg],
   },
   {
-    id: 3,
+    id: 4,
     title: "Dipodemy Learning Platform",
     category: "Mobile App Development",
     tools: "React Native, Supabase, Expo",
@@ -61,7 +72,7 @@ const allProjects: Project[] = [
     images: [Dipodemy1Img, Dipodemy2Img, Dipodemy3Img],
   },
   {
-    id: 4,
+    id: 5,
     title: "MagiceSIM App",
     category: "UI/UX Design",
     tools: "Figma, FlutterFlow, Mobile Design",
@@ -71,7 +82,7 @@ const allProjects: Project[] = [
     images: [LoginImg, CaptureImg, CheckoutImg],
   },
   {
-    id: 5,
+    id: 6,
     title: "SpazCalc Calculator App",
     category: "Mobile App Development",
     tools: "FlutterFlow, Mobile UI Design",
