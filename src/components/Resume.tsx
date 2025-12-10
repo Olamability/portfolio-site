@@ -1,7 +1,7 @@
-import React, { useRef } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import profile from '../assets/profile.jpg';
-import html2pdf from 'html2pdf.js';
+import { jsPDF } from 'jspdf';
 
 const SKILLS = [
   "HTML", "CSS", "JavaScript", "React.js", "React Native", "TypeScript",
@@ -12,25 +12,305 @@ const SKILLS = [
 ];
 
 const Resume: React.FC = () => {
-  const resumeRef = useRef<HTMLDivElement>(null);
+  const PAGE_BREAK_THRESHOLD_HIGH = 250;
+  const PAGE_BREAK_THRESHOLD_LOW = 230;
+
+  const checkPageBreak = (doc: jsPDF, yPos: number, threshold: number): number => {
+    if (yPos > threshold) {
+      doc.addPage();
+      return 20;
+    }
+    return yPos;
+  };
 
   const handleDownloadPDF = () => {
-    if (resumeRef.current) {
-      const opt = {
-        margin: 0.5,
-        filename: 'Ogunyankin_Olumuyiwa_Resume.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true },
-        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-      };
-      html2pdf().set(opt).from(resumeRef.current).save();
-    }
+    const doc = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4'
+    });
+
+    // Set font
+    doc.setFont('helvetica');
+    
+    let yPos = 20;
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const margin = 20;
+    const lineHeight = 7;
+    const sectionSpacing = 10;
+
+    // Header - Name and Title
+    doc.setFontSize(22);
+    doc.setFont('helvetica', 'bold');
+    doc.text('OGUNYANKIN OLUMUYIWA', margin, yPos);
+    yPos += 8;
+
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'normal');
+    doc.text('UI/UX Designer | Frontend Developer | Mobile App Developer', margin, yPos);
+    yPos += sectionSpacing;
+
+    // Contact Information
+    doc.setFontSize(10);
+    doc.text('Nigeria', margin, yPos);
+    yPos += 5;
+    doc.text('Phone: +234 706 838 2474', margin, yPos);
+    yPos += 5;
+    doc.text('Email: ogunyankinolumuyiwa@gmail.com', margin, yPos);
+    yPos += 5;
+    doc.text('Website: https://abilitydigitalz.com.ng', margin, yPos);
+    yPos += 5;
+    doc.text('GitHub: https://github.com/Olamability', margin, yPos);
+    yPos += 5;
+    doc.text('LinkedIn: https://linkedin.com/in/olumuyiwa-ogunyankin-2208b6201', margin, yPos);
+    yPos += sectionSpacing + 3;
+
+    // Professional Summary Section
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'bold');
+    doc.text('PROFESSIONAL SUMMARY', margin, yPos);
+    yPos += lineHeight;
+    
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    const summaryText = 'A dedicated and versatile IT professional with over 8 years of experience spanning education, technical support, and software development. My journey began as an ICT Instructor at Nigerian Naval School Imeri, where I developed a passion for technology education and digital transformation. Currently serving as an IT Support Staff/Teacher and UI/UX Designer | Frontend Developer | Mobile App Developer, I combine technical expertise with educational insight to create innovative digital solutions. I specialize in designing intuitive user interfaces, developing responsive web and mobile applications, and providing comprehensive IT support across educational and corporate environments.';
+    const summaryLines = doc.splitTextToSize(summaryText, pageWidth - 2 * margin);
+    doc.text(summaryLines, margin, yPos);
+    yPos += summaryLines.length * 5 + sectionSpacing;
+
+    // Work Experience Section
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'bold');
+    doc.text('WORK EXPERIENCE', margin, yPos);
+    yPos += lineHeight + 2;
+
+    // Job 1
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'bold');
+    doc.text('IT Support Staff/Teacher', margin, yPos);
+    yPos += 5;
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'italic');
+    doc.text('STETCOM, Kogi State | 2023 - Present', margin, yPos);
+    yPos += 6;
+    
+    doc.setFont('helvetica', 'normal');
+    const job1Duties = [
+      'Provide comprehensive technical support for staff and students, ensuring smooth operation of IT infrastructure',
+      'Teach computer science and IT courses, developing curriculum aligned with educational standards',
+      'Maintain and troubleshoot computer systems, networks, and educational technology equipment',
+      'Train teachers and staff on effective use of educational technology platforms and tools',
+      "Manage school's digital learning management systems and online resources",
+      'Implement cybersecurity measures to protect student and institutional data'
+    ];
+    
+    job1Duties.forEach(duty => {
+      const dutyLines = doc.splitTextToSize('• ' + duty, pageWidth - 2 * margin - 5);
+      doc.text(dutyLines, margin + 3, yPos);
+      yPos += dutyLines.length * 5;
+    });
+    yPos += 5;
+
+    // Job 2
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'bold');
+    doc.text('UI/UX Designer | Frontend Developer | Mobile App Developer', margin, yPos);
+    yPos += 5;
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'italic');
+    doc.text('Ability Digitalz Media | 2023 - Present', margin, yPos);
+    yPos += 6;
+    
+    doc.setFont('helvetica', 'normal');
+    const job2Duties = [
+      'Design and develop responsive websites and modern web applications using React, TypeScript, and Tailwind CSS',
+      'Create intuitive user interfaces and engaging user experiences through comprehensive UX research and design',
+      'Build cross-platform mobile applications using React Native and Flutter frameworks',
+      'Collaborate with clients to understand requirements and deliver customized digital solutions',
+      'Conduct usability testing and iterate designs based on user feedback and analytics',
+      'Develop and maintain design systems and component libraries for consistent branding'
+    ];
+    
+    job2Duties.forEach(duty => {
+      const dutyLines = doc.splitTextToSize('• ' + duty, pageWidth - 2 * margin - 5);
+      doc.text(dutyLines, margin + 3, yPos);
+      yPos += dutyLines.length * 5;
+    });
+    yPos += 5;
+
+    // Check if we need a new page
+    yPos = checkPageBreak(doc, yPos, PAGE_BREAK_THRESHOLD_HIGH);
+
+    // Job 3
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'bold');
+    doc.text('IT Support Staff (Contract)', margin, yPos);
+    yPos += 5;
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'italic');
+    doc.text('Progress International College (PICO), Oke-Igbo, Ondo City | Sept 2022 - Dec 2022', margin, yPos);
+    yPos += 6;
+    
+    doc.setFont('helvetica', 'normal');
+    const job3Duties = [
+      'Provided on-site technical support for faculty, staff, and students',
+      'Installed, configured, and maintained computer systems and software applications',
+      'Troubleshot hardware and software issues to minimize downtime',
+      'Assisted in the setup and maintenance of computer labs and educational technology',
+      'Documented technical procedures and created user guides for common IT tasks'
+    ];
+    
+    job3Duties.forEach(duty => {
+      const dutyLines = doc.splitTextToSize('• ' + duty, pageWidth - 2 * margin - 5);
+      doc.text(dutyLines, margin + 3, yPos);
+      yPos += dutyLines.length * 5;
+    });
+    yPos += 5;
+
+    // Job 4
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Support Staff', margin, yPos);
+    yPos += 5;
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'italic');
+    doc.text('Preston International School, Akure, Ondo State | Jan 2022 - Sept 2022', margin, yPos);
+    yPos += 6;
+    
+    doc.setFont('helvetica', 'normal');
+    const job4Duties = [
+      'Provided technical and administrative support to enhance school operations',
+      'Assisted in managing digital learning platforms and online resources',
+      'Supported the integration of technology into classroom instruction',
+      'Maintained student information systems and school databases',
+      'Coordinated with teachers to implement technology-enhanced learning experiences'
+    ];
+    
+    job4Duties.forEach(duty => {
+      const dutyLines = doc.splitTextToSize('• ' + duty, pageWidth - 2 * margin - 5);
+      doc.text(dutyLines, margin + 3, yPos);
+      yPos += dutyLines.length * 5;
+    });
+    yPos += 5;
+
+    // Check if we need a new page
+    yPos = checkPageBreak(doc, yPos, PAGE_BREAK_THRESHOLD_LOW);
+
+    // Job 5
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'bold');
+    doc.text('ICT Instructor', margin, yPos);
+    yPos += 5;
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'italic');
+    doc.text('Nigerian Naval School, Imeri, Ondo State | 2015 - 2021', margin, yPos);
+    yPos += 6;
+    
+    doc.setFont('helvetica', 'normal');
+    const job5Duties = [
+      'Taught computer science and ICT courses to students at various grade levels',
+      'Developed and implemented comprehensive ICT curriculum aligned with national standards',
+      'Maintained and managed computer laboratories and ICT infrastructure',
+      'Provided technical training and support to staff members to enhance digital literacy',
+      'Organized and supervised ICT-related extracurricular activities and competitions',
+      'Troubleshot and resolved hardware and software issues for school systems',
+      'Implemented basic network administration and cybersecurity protocols'
+    ];
+    
+    job5Duties.forEach(duty => {
+      const dutyLines = doc.splitTextToSize('• ' + duty, pageWidth - 2 * margin - 5);
+      doc.text(dutyLines, margin + 3, yPos);
+      yPos += dutyLines.length * 5;
+    });
+    yPos += sectionSpacing;
+
+    // Check if we need a new page
+    yPos = checkPageBreak(doc, yPos, PAGE_BREAK_THRESHOLD_LOW);
+
+    // Education Section
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'bold');
+    doc.text('EDUCATION', margin, yPos);
+    yPos += lineHeight + 2;
+
+    doc.setFontSize(11);
+    doc.text('M.Sc. Computer Science (In View)', margin, yPos);
+    yPos += 5;
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Adekunle Ajasin University Akungba Akoko | Expected Completion', margin, yPos);
+    yPos += 7;
+
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'bold');
+    doc.text('B.Sc. Computer Science', margin, yPos);
+    yPos += 5;
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Adekunle Ajasin University Akungba Akoko | 2014', margin, yPos);
+    yPos += sectionSpacing;
+
+    // Training & Certifications Section
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'bold');
+    doc.text('TRAINING & CERTIFICATIONS', margin, yPos);
+    yPos += lineHeight + 2;
+
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Certificate of Participation - Global Emerging Tech Summit \'21', margin, yPos);
+    yPos += 5;
+    doc.setFont('helvetica', 'normal');
+    doc.text('University of Emerging Technologies | 2021', margin, yPos);
+    yPos += 4;
+    doc.setFont('helvetica', 'italic');
+    doc.text('The Tools and Applications of Machine Learning and Artificial Intelligence', margin, yPos);
+    yPos += 7;
+
+    doc.setFont('helvetica', 'bold');
+    doc.text('Certificate of Attendance - Adapting To New Normal Post COVID-19', margin, yPos);
+    yPos += 5;
+    doc.setFont('helvetica', 'normal');
+    doc.text('Computer and Telecom Service Limited (CTSLLC) | 2020', margin, yPos);
+    yPos += 4;
+    doc.setFont('helvetica', 'italic');
+    doc.text('Pandemic In Education Service Delivery', margin, yPos);
+    yPos += sectionSpacing;
+
+    // Check if we need a new page
+    yPos = checkPageBreak(doc, yPos, PAGE_BREAK_THRESHOLD_LOW);
+
+    // Language Skills Section
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'bold');
+    doc.text('LANGUAGE SKILLS', margin, yPos);
+    yPos += lineHeight + 2;
+
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    doc.text('English (Fluent), Yoruba (Native), Sign Language (Proficient), Hausa (Basic), Igbo (Basic)', margin, yPos);
+    yPos += sectionSpacing;
+
+    // Skills Section
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'bold');
+    doc.text('SKILLS & TECHNOLOGIES', margin, yPos);
+    yPos += lineHeight + 2;
+
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    const skillsText = SKILLS.join(', ');
+    const skillsLines = doc.splitTextToSize(skillsText, pageWidth - 2 * margin);
+    doc.text(skillsLines, margin, yPos);
+    yPos += skillsLines.length * lineHeight;
+
+    // Save the PDF
+    doc.save('Ogunyankin_Olumuyiwa_Resume.pdf');
   };
 
 return (
     <div className="min-h-screen bg-gradient-to-br from-[#1f2235] via-[#252841] to-[#1f2235] text-white px-4 py-16 md:px-8">
       <motion.div 
-        ref={resumeRef}
         className="max-w-7xl mx-auto bg-gradient-to-br from-gray-800 via-gray-900 to-gray-800 rounded-3xl shadow-2xl grid grid-cols-1 md:grid-cols-3 overflow-hidden border border-gray-700"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
