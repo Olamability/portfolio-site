@@ -7,9 +7,8 @@ const SKILLS = [
   "HTML", "CSS", "JavaScript", "React.js", "React Native", "TypeScript",
   "Tailwind CSS", "Firebase", "Node.js", "PostgreSQL", "Figma", "Adobe XD",
   "Flutter", "FlutterFlow", "Framer Motion", "Git", "Microsoft Office Suite",
-  "Microsoft Word", "Microsoft Excel", "Microsoft PowerPoint", "Google Drive",
-  "Google Docs", "Google Sheets", "Zoom", "Skype", "LinkedIn", 
-  "Facebook", "Instagram", "Twitter/X", "Social Media Management"
+  "Google Workspace", "Zoom", "Skype", "LinkedIn", 
+  "Social Media Management", "Team Collaboration"
 ];
 
 const Resume: React.FC = () => {
