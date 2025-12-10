@@ -100,7 +100,7 @@ const Resume: React.FC = () => {
       'Teach computer science and IT courses, developing curriculum aligned with educational standards',
       'Maintain and troubleshoot computer systems, networks, and educational technology equipment',
       'Train teachers and staff on effective use of educational technology platforms and tools',
-      'Manage school\'s digital learning management systems and online resources',
+      "Manage school's digital learning management systems and online resources",
       'Implement cybersecurity measures to protect student and institutional data'
     ];
     
@@ -302,6 +302,7 @@ const Resume: React.FC = () => {
     const skillsText = SKILLS.join(', ');
     const skillsLines = doc.splitTextToSize(skillsText, pageWidth - 2 * margin);
     doc.text(skillsLines, margin, yPos);
+    yPos += skillsLines.length * lineHeight;
 
     // Save the PDF
     doc.save('Ogunyankin_Olumuyiwa_Resume.pdf');
