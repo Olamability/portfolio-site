@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
+import { motion } from "framer-motion";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -75,7 +76,7 @@ const allProjects: Project[] = [
     category: "Mobile App Development",
     tools: "FlutterFlow, Mobile UI Design",
     description: "A feature-rich calculator app with a clean, modern interface. Demonstrates proficiency in no-code/low-code development while maintaining high design standards and user experience principles.",
-    link: "",
+    link: "#",
     type: "github",
     images: [SpazCalcImg, SpazrCalc2Img],
   },
@@ -148,12 +149,12 @@ const ProjectCard: React.FC = () => {
       {/* Project Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 place-items-center">
         {filteredProjects.map((project, index) => (
-          <div
+          <motion.div
             key={project.id}
             className="relative border border-gray-700 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-yellow-500/20 transition-all duration-500 group w-full max-w-sm bg-gradient-to-br from-gray-800 via-gray-900 to-gray-800 hover:scale-105"
-            style={{
-              animation: `fadeInUp 0.6s ease-out ${index * 0.1}s both`
-            }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: index * 0.1 }}
           >
             {/* Image Carousel */}
             <div className="relative overflow-hidden">
@@ -187,7 +188,7 @@ const ProjectCard: React.FC = () => {
             </div>
 
             {/* Content */}
-            <div className="p-6 flex flex-col justify-between min-h-[240px]">
+            <div className="p-6 flex flex-col justify-between h-60">
               <div>
                 <h3 className="text-xl font-bold text-white mb-2 group-hover:text-yellow-400 transition-colors duration-300">
                   {project.title}
@@ -216,7 +217,7 @@ const ProjectCard: React.FC = () => {
                 </svg>
               </a>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
 
@@ -240,19 +241,6 @@ const ProjectCard: React.FC = () => {
           </div>
         </div>
       )}
-      
-      <style>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
     </section>
   );
 };
