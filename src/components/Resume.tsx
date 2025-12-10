@@ -58,7 +58,7 @@ const Resume: React.FC = () => {
     yPos += 5;
     doc.text('Email: ogunyankinolumuyiwa@gmail.com', margin, yPos);
     yPos += 5;
-    doc.text('Website: https://abilitydigitalz.com.ng', margin, yPos);
+    doc.text('Portfolio: https://devability.vercel.app/', margin, yPos);
     yPos += 5;
     doc.text('GitHub: https://github.com/Olamability', margin, yPos);
     yPos += 5;
@@ -68,7 +68,7 @@ const Resume: React.FC = () => {
     // Professional Summary Section
     doc.setFontSize(14);
     doc.setFont('helvetica', 'bold');
-    doc.text('PROFESSIONAL SUMMARY', margin, yPos);
+    doc.text('ABOUT ME', margin, yPos);
     yPos += lineHeight;
     
     doc.setFontSize(10);
@@ -343,12 +343,12 @@ return (
               <p className="text-yellow-400 font-semibold flex items-center justify-center gap-2">
                 📍 Nigeria | 🌐{' '}
                 <a
-                  href="https://abilitydigitalz.com.ng"
+                  href="https://devability.vercel.app/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="underline hover:text-white transition-colors duration-300"
                 >
-                  abilitydigitalz.com.ng
+                  Portfolio
                 </a>
               </p>
               <p className="text-gray-300">📱 +234 706 838 2474</p>
@@ -394,7 +394,7 @@ return (
           >
             <p className="uppercase tracking-widest text-xs text-yellow-400 mb-2">— About Me</p>
             <h2 className="text-3xl text-white font-bold mb-6 border-b-2 border-yellow-400 pb-3 inline-block">
-              Professional Summary
+              Summary
             </h2>
             <div className="mt-6 bg-gray-800/30 p-6 rounded-xl border border-gray-700 hover:border-yellow-400 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-400/20">
               <p className="text-gray-300 leading-relaxed">
