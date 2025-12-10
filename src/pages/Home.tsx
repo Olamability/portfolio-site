@@ -58,8 +58,9 @@ const Home = () => {
         >
           <Typed
             strings={[
-              "Educationist",
-              "Digital Designer",
+              "UI/UX Designer",
+              "Frontend Developer",
+              "Mobile App Developer",
             ]}
             typeSpeed={50}
             backSpeed={30}
@@ -76,13 +77,13 @@ const Home = () => {
           transition={{ delay: 0.5 }}
         >
           <p>
-            I am a versatile <span className="text-yellow-400 font-medium">Digital Page Designer, Web Developer, and Content Specialist</span> with a strong passion for <span className="text-yellow-400 font-medium">digital storytelling</span> and <span className="text-yellow-400 font-medium">audience-focused product design</span>.
+            I am a <span className="text-yellow-400 font-medium">UI/UX Designer, Frontend Developer, and Mobile App Developer</span> who specializes in creating <span className="text-yellow-400 font-medium">intuitive digital experiences</span> that combine beautiful design with powerful functionality.
           </p>
           <p>
-            My expertise spans <span className="font-bold">WordPress (Elementor & Gutenberg), front-end technologies (React, TypeScript, Tailwind), and mobile app development (React Native & Flutter)</span>.
+            My expertise includes <span className="font-bold">UI/UX design (Figma, Adobe XD), frontend development (React, TypeScript, Tailwind CSS), and mobile app development (React Native, Flutter, FlutterFlow)</span> — enabling me to design and build complete digital solutions from concept to deployment.
           </p>
           <p>
-            I bring experience in UI/UX design (Figma, Adobe XD), SEO optimization, and automation (Make, Zapier), enabling me to build high-performing, mobile-first platforms.
+            I focus on creating <span className="text-yellow-400 font-medium">user-centered designs</span> and implementing them with clean, scalable code. Whether it's a responsive web application or a cross-platform mobile app, I deliver polished products that users love.
           </p>
         </motion.div>
 
@@ -90,11 +91,14 @@ const Home = () => {
         {showFullText && (
           <motion.div className="space-y-4 text-sm text-gray-300 leading-relaxed">
             <p>
-              Combining journalistic sensibilities with visual design, I create seamless user experiences that enhance engagement and deliver impactful stories across digital platforms.
+              With a strong foundation in both <span className="text-yellow-400 font-medium">design thinking and software development</span>, I bridge the gap between aesthetics and functionality. I leverage tools like WordPress, Webflow, and modern JavaScript frameworks to bring designs to life.
             </p>
             <p>
-              <span className="text-yellow-800 font-medium">
-                My goal is to transform ideas into engaging digital experiences that resonate with users and drive results.
+              My experience includes SEO optimization, automation (Make, Zapier), and performance optimization — ensuring that every project not only looks great but performs exceptionally across all devices.
+            </p>
+            <p>
+              <span className="text-yellow-400 font-medium">
+                My goal is to create digital experiences that are not just visually stunning, but also accessible, performant, and built to solve real user problems.
               </span>
             </p>
           </motion.div>
