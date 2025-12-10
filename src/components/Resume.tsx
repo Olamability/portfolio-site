@@ -1,17 +1,37 @@
-import React from "react";
+import React, { useRef } from "react";
 import { motion } from "framer-motion";
 import profile from '../assets/profile.jpg';
+import html2pdf from 'html2pdf.js';
 
 const SKILLS = [
   "HTML", "CSS", "JavaScript", "React.js", "React Native", "TypeScript",
   "Tailwind CSS", "Firebase", "Node.js", "PostgreSQL", "Figma", "Adobe XD",
-  "Flutter", "FlutterFlow", "Framer Motion", "Git"
+  "Flutter", "FlutterFlow", "Framer Motion", "Git", "Microsoft Office Suite",
+  "Microsoft Word", "Microsoft Excel", "Microsoft PowerPoint", "Google Drive",
+  "Google Docs", "Google Sheets", "Zoom", "Skype", "LinkedIn", 
+  "Facebook", "Instagram", "Twitter/X", "Social Media Management"
 ];
 
 const Resume: React.FC = () => {
+  const resumeRef = useRef<HTMLDivElement>(null);
+
+  const handleDownloadPDF = () => {
+    if (resumeRef.current) {
+      const opt = {
+        margin: 0.5,
+        filename: 'Ogunyankin_Olumuyiwa_Resume.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+      };
+      html2pdf().set(opt).from(resumeRef.current).save();
+    }
+  };
+
 return (
     <div className="min-h-screen bg-gradient-to-br from-[#1f2235] via-[#252841] to-[#1f2235] text-white px-4 py-16 md:px-8">
       <motion.div 
+        ref={resumeRef}
         className="max-w-7xl mx-auto bg-gradient-to-br from-gray-800 via-gray-900 to-gray-800 rounded-3xl shadow-2xl grid grid-cols-1 md:grid-cols-3 overflow-hidden border border-gray-700"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -87,53 +107,187 @@ return (
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          {/* Education */}
+          {/* About Me */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
           >
-            <p className="uppercase tracking-widest text-xs text-yellow-400 mb-2">— Education</p>
+            <p className="uppercase tracking-widest text-xs text-yellow-400 mb-2">— About Me</p>
             <h2 className="text-3xl text-white font-bold mb-6 border-b-2 border-yellow-400 pb-3 inline-block">
-              Academic Background
+              Professional Summary
             </h2>
             <div className="mt-6 bg-gray-800/30 p-6 rounded-xl border border-gray-700 hover:border-yellow-400 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-400/20">
-              <h3 className="font-bold text-xl text-yellow-400">B.Sc. Computer Science</h3>
-              <p className="text-gray-300 mt-2">Adekunle Ajasin University Akungba Akoko • 2014</p>
+              <p className="text-gray-300 leading-relaxed">
+                A dedicated and versatile IT professional with over 8 years of experience spanning education, technical support, and software development. 
+                My journey began as an ICT Instructor at Nigerian Naval School Imeri, where I developed a passion for technology education and digital transformation. 
+                Currently serving as an IT Support Staff/Teacher and UI/UX Designer | Frontend Developer | Mobile App Developer, I combine technical expertise 
+                with educational insight to create innovative digital solutions. I specialize in designing intuitive user interfaces, developing responsive 
+                web and mobile applications, and providing comprehensive IT support across educational and corporate environments.
+              </p>
             </div>
           </motion.div>
 
-          {/* Experience */}
+          {/* Work Experience */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
           >
-            <p className="uppercase tracking-widest text-xs text-yellow-400 mb-2">— Experience</p>
+            <p className="uppercase tracking-widest text-xs text-yellow-400 mb-2">— Work Experience</p>
             <h2 className="text-3xl text-white font-bold mb-6 border-b-2 border-yellow-400 pb-3 inline-block">
               Professional Journey
             </h2>
             <div className="mt-6 space-y-6">
+              {/* Current Position 1 */}
+              <div className="bg-gray-800/30 p-6 rounded-xl border border-gray-700 hover:border-yellow-400 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-400/20">
+                <h3 className="font-bold text-xl text-yellow-400">IT Support Staff/Teacher</h3>
+                <p className="text-gray-400 mt-1">STETCOM, Kogi State • 2023 - Present</p>
+                <ul className="mt-3 text-gray-300 leading-relaxed list-disc list-inside space-y-2">
+                  <li>Provide comprehensive technical support for staff and students, ensuring smooth operation of IT infrastructure</li>
+                  <li>Teach computer science and IT courses, developing curriculum aligned with educational standards</li>
+                  <li>Maintain and troubleshoot computer systems, networks, and educational technology equipment</li>
+                  <li>Train teachers and staff on effective use of educational technology platforms and tools</li>
+                  <li>Manage school's digital learning management systems and online resources</li>
+                  <li>Implement cybersecurity measures to protect student and institutional data</li>
+                </ul>
+              </div>
+
+              {/* Current Position 2 */}
               <div className="bg-gray-800/30 p-6 rounded-xl border border-gray-700 hover:border-yellow-400 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-400/20">
                 <h3 className="font-bold text-xl text-yellow-400">UI/UX Designer | Frontend Developer | Mobile App Developer</h3>
-                <p className="text-gray-400 mt-1">Ability Digitalz • 2023 - Present</p>
-                <p className="mt-3 text-gray-300 leading-relaxed">
-                  Leading design and development of responsive websites and modern web/mobile applications. Specializing in creating intuitive user interfaces, building scalable frontend solutions with React and TypeScript, and developing cross-platform mobile apps using React Native and Flutter.
-                </p>
+                <p className="text-gray-400 mt-1">Ability Digitalz Media • 2023 - Present</p>
+                <ul className="mt-3 text-gray-300 leading-relaxed list-disc list-inside space-y-2">
+                  <li>Design and develop responsive websites and modern web applications using React, TypeScript, and Tailwind CSS</li>
+                  <li>Create intuitive user interfaces and engaging user experiences through comprehensive UX research and design</li>
+                  <li>Build cross-platform mobile applications using React Native and Flutter frameworks</li>
+                  <li>Collaborate with clients to understand requirements and deliver customized digital solutions</li>
+                  <li>Conduct usability testing and iterate designs based on user feedback and analytics</li>
+                  <li>Develop and maintain design systems and component libraries for consistent branding</li>
+                </ul>
               </div>
+
+              {/* Contract Position */}
+              <div className="bg-gray-800/30 p-6 rounded-xl border border-gray-700 hover:border-yellow-400 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-400/20">
+                <h3 className="font-bold text-xl text-white">IT Support Staff (Contract)</h3>
+                <p className="text-gray-400 mt-1">Progress International College (PICO), Oke-Igbo, Ondo City • Sept 2022 - Dec 2022</p>
+                <ul className="mt-3 text-gray-300 leading-relaxed list-disc list-inside space-y-2">
+                  <li>Provided on-site technical support for faculty, staff, and students</li>
+                  <li>Installed, configured, and maintained computer systems and software applications</li>
+                  <li>Troubleshot hardware and software issues to minimize downtime</li>
+                  <li>Assisted in the setup and maintenance of computer labs and educational technology</li>
+                  <li>Documented technical procedures and created user guides for common IT tasks</li>
+                </ul>
+              </div>
+
+              {/* Preston International School */}
               <div className="bg-gray-800/30 p-6 rounded-xl border border-gray-700 hover:border-yellow-400 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-400/20">
                 <h3 className="font-bold text-xl text-white">Support Staff</h3>
-                <p className="text-gray-400 mt-1">Preston International School, Akure, Ondo State • 2022</p>
-                <p className="mt-3 text-gray-300 leading-relaxed">
-                  Provided technical and administrative support to enhance school operations and student learning experiences.
-                </p>
+                <p className="text-gray-400 mt-1">Preston International School, Akure, Ondo State • Jan 2022 - Sept 2022</p>
+                <ul className="mt-3 text-gray-300 leading-relaxed list-disc list-inside space-y-2">
+                  <li>Provided technical and administrative support to enhance school operations</li>
+                  <li>Assisted in managing digital learning platforms and online resources</li>
+                  <li>Supported the integration of technology into classroom instruction</li>
+                  <li>Maintained student information systems and school databases</li>
+                  <li>Coordinated with teachers to implement technology-enhanced learning experiences</li>
+                </ul>
+              </div>
+
+              {/* Nigerian Naval School */}
+              <div className="bg-gray-800/30 p-6 rounded-xl border border-gray-700 hover:border-yellow-400 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-400/20">
+                <h3 className="font-bold text-xl text-white">ICT Instructor</h3>
+                <p className="text-gray-400 mt-1">Nigerian Naval School, Imeri, Ondo State • 2015 - 2021</p>
+                <ul className="mt-3 text-gray-300 leading-relaxed list-disc list-inside space-y-2">
+                  <li>Taught computer science and ICT courses to students at various grade levels</li>
+                  <li>Developed and implemented comprehensive ICT curriculum aligned with national standards</li>
+                  <li>Maintained and managed computer laboratories and ICT infrastructure</li>
+                  <li>Provided technical training and support to staff members to enhance digital literacy</li>
+                  <li>Organized and supervised ICT-related extracurricular activities and competitions</li>
+                  <li>Troubleshot and resolved hardware and software issues for school systems</li>
+                  <li>Implemented basic network administration and cybersecurity protocols</li>
+                </ul>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Education */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+          >
+            <p className="uppercase tracking-widest text-xs text-yellow-400 mb-2">— Education</p>
+            <h2 className="text-3xl text-white font-bold mb-6 border-b-2 border-yellow-400 pb-3 inline-block">
+              Academic Background
+            </h2>
+            <div className="mt-6 space-y-4">
+              <div className="bg-gray-800/30 p-6 rounded-xl border border-gray-700 hover:border-yellow-400 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-400/20">
+                <h3 className="font-bold text-xl text-yellow-400">M.Sc. Computer Science (In View)</h3>
+                <p className="text-gray-300 mt-2">Adekunle Ajasin University Akungba Akoko • Expected Completion</p>
               </div>
               <div className="bg-gray-800/30 p-6 rounded-xl border border-gray-700 hover:border-yellow-400 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-400/20">
-                <h3 className="font-bold text-xl text-white">IT Instructor</h3>
-                <p className="text-gray-400 mt-1">Nigerian Naval School, Imeri, Ondo State • 2016 – 2022</p>
-                <p className="mt-3 text-gray-300 leading-relaxed">
-                  Maintained computer systems and ICT facilities for both staff and students. Provided technical training and support to enhance digital literacy across the institution.
-                </p>
+                <h3 className="font-bold text-xl text-white">B.Sc. Computer Science</h3>
+                <p className="text-gray-300 mt-2">Adekunle Ajasin University Akungba Akoko • 2014</p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Training & Certifications */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7 }}
+          >
+            <p className="uppercase tracking-widest text-xs text-yellow-400 mb-2">— Training & Certifications</p>
+            <h2 className="text-3xl text-white font-bold mb-6 border-b-2 border-yellow-400 pb-3 inline-block">
+              Professional Development
+            </h2>
+            <div className="mt-6 space-y-4">
+              <div className="bg-gray-800/30 p-6 rounded-xl border border-gray-700 hover:border-yellow-400 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-400/20">
+                <h3 className="font-bold text-lg text-yellow-400">Certificate of Participation - Global Emerging Tech Summit '21</h3>
+                <p className="text-gray-300 mt-2">University of Emerging Technologies • 2021</p>
+                <p className="text-gray-400 mt-1 italic">The Tools and Applications of Machine Learning and Artificial Intelligence</p>
+              </div>
+              <div className="bg-gray-800/30 p-6 rounded-xl border border-gray-700 hover:border-yellow-400 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-400/20">
+                <h3 className="font-bold text-lg text-white">Certificate of Attendance - Adapting To New Normal Post COVID-19</h3>
+                <p className="text-gray-300 mt-2">Computer and Telecom Service Limited (CTSLLC) • 2020</p>
+                <p className="text-gray-400 mt-1 italic">Pandemic In Education Service Delivery</p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Language Skills */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+          >
+            <p className="uppercase tracking-widest text-xs text-yellow-400 mb-2">— Language Skills</p>
+            <h2 className="text-3xl text-white font-bold mb-6 border-b-2 border-yellow-400 pb-3 inline-block">
+              Communication
+            </h2>
+            <div className="mt-6 bg-gray-800/30 p-6 rounded-xl border border-gray-700 hover:border-yellow-400 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-400/20">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div className="text-center">
+                  <p className="text-yellow-400 font-bold text-lg">English</p>
+                  <p className="text-gray-400 text-sm">Fluent</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-white font-bold text-lg">Yoruba</p>
+                  <p className="text-gray-400 text-sm">Native</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-white font-bold text-lg">Sign Language</p>
+                  <p className="text-gray-400 text-sm">Proficient</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-white font-bold text-lg">Hausa</p>
+                  <p className="text-gray-400 text-sm">Basic</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-white font-bold text-lg">Igbo</p>
+                  <p className="text-gray-400 text-sm">Basic</p>
+                </div>
               </div>
             </div>
           </motion.div>
@@ -142,7 +296,7 @@ return (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
+            transition={{ delay: 0.9 }}
           >
             <p className="uppercase tracking-widest text-xs text-yellow-400 mb-2">— Skills & Technologies</p>
             <h2 className="text-3xl text-white font-bold mb-6 border-b-2 border-yellow-400 pb-3 inline-block">
@@ -155,7 +309,7 @@ return (
                   className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-xl text-center font-semibold border border-gray-700 hover:border-yellow-400 hover:shadow-lg hover:shadow-yellow-400/20 transition-all duration-300 hover:scale-105 cursor-default"
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.7 + Math.min(index * 0.03, 0.5) }}
+                  transition={{ delay: 1.0 + Math.min(index * 0.03, 0.5) }}
                   whileHover={{ y: -5 }}
                 >
                   <span className="text-white">{skill}</span>
@@ -164,6 +318,35 @@ return (
             </div>
           </motion.div>
         </motion.div>
+      </motion.div>
+
+      {/* Download PDF Button */}
+      <motion.div 
+        className="max-w-7xl mx-auto mt-8 flex justify-center"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.0 }}
+      >
+        <button
+          onClick={handleDownloadPDF}
+          className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-yellow-400/50 transition-all duration-300 transform hover:scale-105 flex items-center gap-3"
+        >
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            className="h-6 w-6" 
+            fill="none" 
+            viewBox="0 0 24 24" 
+            stroke="currentColor"
+          >
+            <path 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+              strokeWidth={2} 
+              d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" 
+            />
+          </svg>
+          Download Resume as PDF
+        </button>
       </motion.div>
     </div>
   );
