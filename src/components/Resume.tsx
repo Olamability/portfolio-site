@@ -2,6 +2,12 @@ import React from "react";
 import { motion } from "framer-motion";
 import profile from '../assets/profile.jpg';
 
+const SKILLS = [
+  "HTML", "CSS", "JavaScript", "React.js", "React Native", "TypeScript",
+  "Tailwind CSS", "Firebase", "Node.js", "PostgreSQL", "Figma", "Adobe XD",
+  "Flutter", "FlutterFlow", "Framer Motion", "Git"
+];
+
 const Resume: React.FC = () => {
 return (
     <div className="min-h-screen bg-gradient-to-br from-[#1f2235] via-[#252841] to-[#1f2235] text-white px-4 py-16 md:px-8">
@@ -143,13 +149,13 @@ return (
               Technical Expertise
             </h2>
             <div className="mt-6 grid grid-cols-2 md:grid-cols-3 gap-4">
-              {["HTML", "CSS", "JavaScript", "React.js", "React Native", "TypeScript", "Tailwind CSS", "Firebase", "Node.js", "PostgreSQL", "Figma", "Adobe XD", "Flutter", "FlutterFlow", "Framer Motion", "Git"].map((skill, index) => (
+              {SKILLS.map((skill, index) => (
                 <motion.div
                   key={skill}
                   className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-xl text-center font-semibold border border-gray-700 hover:border-yellow-400 hover:shadow-lg hover:shadow-yellow-400/20 transition-all duration-300 hover:scale-105 cursor-default"
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.7 + index * 0.05 }}
+                  transition={{ delay: 0.7 + Math.min(index * 0.03, 0.5) }}
                   whileHover={{ y: -5 }}
                 >
                   <span className="text-white">{skill}</span>
