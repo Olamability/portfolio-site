@@ -18,6 +18,8 @@ import Dipodemy1Img from "../assets/Dipodemy1.jpg";
 import Dipodemy2Img from "../assets/Dipodemy2.jpg";
 import Dipodemy3Img from "../assets/Dipodemy3.jpg";
 import Vision from "../assets/Vision.png";
+import HomeImg from "../assets/Home.png";
+import DetailsImg from "../assets/Details.png";
 
 interface Project {
   id: number;
@@ -26,11 +28,21 @@ interface Project {
   tools: string;
   description: string;
   link: string;
-  type: "live" | "github" | "case-study" |"Demo";
+  type: "live" | "github" | "case-study" | "Demo";
   images: string[];
 }
 
 const allProjects: Project[] = [
+  {
+    id: 7,
+    title: "RoyalHomes & Park",
+    category: "UI/UX Design",
+    tools: "Figma, Mobile Design, Prototyping",
+    description: "A high-fidelity unified search mobile app designed to help users effortlessly find and book the perfect residential homes for relocating family members and scenic park spaces for outdoor picnics.",
+    link: "https://www.figma.com/proto/xHou0dZMrZ3oCHMtXvlrup/ShopMore?node-id=4282-605&p=f&t=SThd8hosyc84Bodn-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1",
+    type: "github",
+    images: [HomeImg, DetailsImg],
+  },
   {
     id: 1,
     title: "VisionFinance Website",
@@ -96,7 +108,37 @@ const allProjects: Project[] = [
 const ProjectCard: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [clickedCategory, setClickedCategory] = useState<string | null>(null);
-  const [modalImage, setModalImage] = useState<string | null>(null);
+  const [modalProject, setModalProject] = useState<Project | null>(null);
+  const [modalImageIndex, setModalImageIndex] = useState<number>(-1);
+
+  const handlePrevImage = () => {
+    if (!modalProject) return;
+    setModalImageIndex((prev) => (prev > 0 ? prev - 1 : modalProject.images.length - 1));
+  };
+
+  const handleNextImage = () => {
+    if (!modalProject) return;
+    setModalImageIndex((prev) => (prev < modalProject.images.length - 1 ? prev + 1 : 0));
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!modalProject) return;
+      if (e.key === "ArrowLeft") {
+        handlePrevImage();
+      } else if (e.key === "ArrowRight") {
+        handleNextImage();
+      } else if (e.key === "Escape") {
+        setModalProject(null);
+        setModalImageIndex(-1);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [modalProject, modalImageIndex]);
 
   const categories: string[] = ["All", ...new Set(allProjects.map((p) => p.category))];
   const buttonRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
@@ -145,11 +187,10 @@ const ProjectCard: React.FC = () => {
                 buttonRefs.current[cat] = el;
               }}
               onClick={() => handleCategoryClick(cat)}
-              className={`px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 shrink-0 snap-center ${
-                selectedCategory === cat
+              className={`px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 shrink-0 snap-center ${selectedCategory === cat
                   ? "bg-yellow-500 text-gray-900 shadow-lg shadow-yellow-500/50 scale-105"
                   : "bg-transparent text-gray-300 hover:bg-gray-800 hover:text-white"
-              } ${clickedCategory === cat ? "animate-pulse" : ""}`}
+                } ${clickedCategory === cat ? "animate-pulse" : ""}`}
             >
               {cat}
             </button>
@@ -169,10 +210,10 @@ const ProjectCard: React.FC = () => {
           >
             {/* Image Carousel */}
             <div className="relative overflow-hidden">
-              <Swiper 
-                modules={[Navigation, Pagination]} 
-                navigation 
-                pagination={{ clickable: true }} 
+              <Swiper
+                modules={[Navigation, Pagination]}
+                navigation
+                pagination={{ clickable: true }}
                 className="h-56 w-full"
               >
                 {project.images.map((img, i) => (
@@ -182,14 +223,17 @@ const ProjectCard: React.FC = () => {
                         src={img}
                         alt={`${project.title} ${i + 1}`}
                         className="w-full h-full object-cover cursor-pointer transition-transform duration-500 group-hover:scale-110"
-                        onClick={() => setModalImage(img)}
+                        onClick={() => {
+                          setModalProject(project);
+                          setModalImageIndex(i);
+                        }}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-60"></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-60 pointer-events-none"></div>
                     </div>
                   </SwiperSlide>
                 ))}
               </Swiper>
-              
+
               {/* Category Badge */}
               <div className="absolute top-4 right-4 z-10">
                 <span className="bg-yellow-500 text-gray-900 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide shadow-lg">
@@ -211,7 +255,7 @@ const ProjectCard: React.FC = () => {
                   {project.description}
                 </p>
               </div>
-              
+
               <a
                 href={project.link}
                 target="_blank"
@@ -221,8 +265,8 @@ const ProjectCard: React.FC = () => {
                 {project.type === "live"
                   ? "View Live Site"
                   : project.type === "github"
-                  ? "View Project"
-                  : "Demo"}
+                    ? "View Project"
+                    : "Demo"}
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
@@ -233,19 +277,72 @@ const ProjectCard: React.FC = () => {
       </div>
 
       {/* Modal for Image Preview */}
-      {modalImage && (
-        <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 backdrop-blur-sm">
-          <div className="relative max-w-6xl mx-4">
-            <img 
-              src={modalImage} 
-              alt="Preview" 
-              className="max-h-[85vh] max-w-full rounded-2xl shadow-2xl" 
-            />
+      {modalProject && modalImageIndex >= 0 && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-95 flex items-center justify-center z-50 backdrop-blur-sm cursor-zoom-out"
+          onClick={() => {
+            setModalProject(null);
+            setModalImageIndex(-1);
+          }}
+        >
+          <div className="relative max-w-6xl w-full mx-4 flex items-center justify-center cursor-default" onClick={(e) => e.stopPropagation()}>
+            
+            {/* Image Preview & Indicator */}
+            <div className="relative max-h-[85vh] flex flex-col items-center select-none">
+              <img
+                src={modalProject.images[modalImageIndex]}
+                alt={`Preview of ${modalProject.title}`}
+                className="max-h-[80vh] max-w-full rounded-2xl shadow-2xl object-contain"
+              />
+              {modalProject.images.length > 1 && (
+                <div className="mt-4 bg-gray-900/80 text-white px-4 py-1.5 rounded-full text-sm font-semibold backdrop-blur-sm shadow-md">
+                  {modalImageIndex + 1} / {modalProject.images.length}
+                </div>
+              )}
+            </div>
+
+            {/* Left Control Arrow */}
+            {modalProject.images.length > 1 && (
+              <button
+                className="absolute left-4 md:-left-16 text-white bg-gray-900/60 p-3 rounded-full hover:bg-yellow-500 hover:text-gray-900 transition-all duration-300 shadow-lg hover:scale-110"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handlePrevImage();
+                }}
+                aria-label="Previous image"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+            )}
+
+            {/* Right Control Arrow */}
+            {modalProject.images.length > 1 && (
+              <button
+                className="absolute right-4 md:-right-16 text-white bg-gray-900/60 p-3 rounded-full hover:bg-yellow-500 hover:text-gray-900 transition-all duration-300 shadow-lg hover:scale-110"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleNextImage();
+                }}
+                aria-label="Next image"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            )}
+
+            {/* Close Button */}
             <button
-              className="absolute -top-4 -right-4 text-white text-xl bg-red-500 p-3 rounded-full hover:bg-red-600 transition-all duration-300 shadow-lg hover:scale-110"
-              onClick={() => setModalImage(null)}
+              className="absolute -top-12 right-0 text-white bg-red-500 p-2.5 rounded-full hover:bg-red-600 transition-all duration-300 shadow-lg hover:scale-110"
+              onClick={() => {
+                setModalProject(null);
+                setModalImageIndex(-1);
+              }}
+              aria-label="Close preview"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
